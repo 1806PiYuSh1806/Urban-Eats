@@ -121,3 +121,13 @@ export const sample_foods = [
         tags: ['British', 'FastFood', 'Lunch']
     },
 ];
+
+export const sample_tags = [
+    { name: 'All', count: sample_foods.length },
+    { name: 'FastFood', count: sample_foods.filter(food => food.tags.includes('FastFood')).length },
+    { name: 'Pizza', count: sample_foods.filter(food => food.tags.includes('Pizza')).length },
+    { name: 'Lunch', count: sample_foods.filter(food => food.tags.includes('Lunch')).length },
+    { name: 'Pasta', count: sample_foods.filter(food => food.tags.includes('Pasta')).length },
+    { name: 'Italian', count: sample_foods.filter(food => food.tags.includes('Italian')).length },
+    { name: 'Dinner', count: sample_foods.filter(food => food.tags.includes('Dinner')).length },
+];
