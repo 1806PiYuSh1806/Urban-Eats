@@ -1,12 +1,14 @@
-import React from 'react'
-import Header from './components/Header/Header'
+import React from "react";
+import Header from "./components/Header/Header";
+import AppRoutes from "./AppRoutes";
 
 const App = () => {
   return (
     <>
-    <Header/>
+      <Header />
+      <AppRoutes />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
