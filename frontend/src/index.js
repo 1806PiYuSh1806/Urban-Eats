@@ -5,6 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import CartProvider from "./Hooks/useCart";
+
+import './axiosConfig.js'
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
