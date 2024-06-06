@@ -8,6 +8,10 @@ const Search = () => {
   const [term, setTerm] = useState(searchTerm || "");
 
   useEffect(() => {
+    setTerm(searchTerm ?? '')
+  }, [searchTerm])
+
+  useEffect(() => {
     setTerm(searchTerm || "");
   }, [searchTerm]);
 
@@ -26,7 +30,7 @@ const Search = () => {
         placeholder="Search your favourite food.."
         onChange={changeInputfeild}
         onKeyUp={e => e.key === 'Enter' && search()}
-        defaultValue={searchTerm}
+        value={term}
       />
       <button onClick={search}>Search</button>
     </div>

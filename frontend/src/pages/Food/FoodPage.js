@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from "react";
 import classes from "./FoodPage.module.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getById } from "../../services/foodService";
 import StarRating from "../../components/StarRating/StarRating";
 import Tags from "../../components/Tags/Tags";
 import Price from "../../components/Price/Price";
+import { useCart } from "../../Hooks/useCart";
+import NotFound from "../../components/NotFound/NotFound";
 
 const FoodPage = () => {
   const [food, setFood] = useState({});
   const { id } = useParams();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getById(id).then(setFood);
   }, [id]);
 
+  const handleAddToCart = () => {
+    addToCart(food);
+    navigate("/cart");
+  };
+
   return (
     <>
-      {food && (
+      {!food ? (
+        <NotFound message="Food Not Found" linkText="Back To Home Page" />
+      ) : (
         <div className={classes.container}>
           <img
             className={classes.image}
@@ -51,7 +62,7 @@ const FoodPage = () => {
                 />
               )}
             </div>
-            
+
             <div className={classes.cook_time}>
               <span>
                 Time to cook about <strong>{food.cookTime}</strong> minutes
@@ -59,10 +70,10 @@ const FoodPage = () => {
             </div>
 
             <div className={classes.price}>
-              <Price price={food.price}/>
+              <Price price={food.price} />
             </div>
 
-            <button>Add to Cart</button>
+            <button onClick={handleAddToCart}>Add to Cart</button>
           </div>
         </div>
       )}
