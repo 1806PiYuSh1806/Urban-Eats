@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { foodModel } from "../models/food.model.js";
 import handler from "express-async-handler";
+import mongoose from 'mongoose';
+
+const { ObjectId } = mongoose.Types;
 
 const router = Router();
 
@@ -71,8 +74,16 @@ router.get(
   "/:foodId",
   handler(async (req, res) => {
     const { foodId } = req.params;
-    const food = await foodModel.findOne({foodId});
-    res.send(food);
+    try {
+      const food = await foodModel.findById(foodId);
+      if (!food) {
+        return res.status(404).send({ message: "Food not found" });
+      }
+      res.send(food);
+    } catch (error) {
+      console.error("Error fetching food:", error);
+      res.status(500).send({ message: "Internal server error" });
+    }
   })
 );
 
