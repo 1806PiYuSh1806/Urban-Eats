@@ -9,6 +9,7 @@ import { AuthProvider } from "./Hooks/useAuth";
 import { ToastContainer } from "react-toastify";
 import { LoadingProvider } from "./Hooks/useLoading";
 import "react-toastify/dist/ReactToastify.css";
+import "./Interceptors/authInterceptor";
 
 import "./axiosConfig.js";
 

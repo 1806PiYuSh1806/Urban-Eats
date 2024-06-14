@@ -10,16 +10,17 @@ import Title from "../../components/Title/Title";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import OrderItemList from "../../components/OrderItemsList/OrderItemList";
+import Map from "../../components/Map/Map";
 
 const CheckoutPage = () => {
   const { cart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [order, setOrder] = useState(null);
+  const [order, setOrder] = useState({ items: [], addressLatLng: null });
 
   useEffect(() => {
     if (cart && cart.items) {
-      setOrder({ ...cart });
+      setOrder({ ...cart, addressLatLng: null });
     }
   }, [cart]);
 
@@ -35,8 +36,12 @@ const CheckoutPage = () => {
       return;
     }
 
-    await createOrder({ ...order, name: data.name, address: data.address });
-    navigate("/payment");
+    try {
+      await createOrder({ ...order, name: data.name, address: data.address });
+      navigate("/payment");
+    } catch (error) {
+      toast.error("Failed to create order");
+    }
   };
 
   return (
@@ -62,6 +67,12 @@ const CheckoutPage = () => {
 
       <div>
         <Title title="Choose Your Location" fontSize="1.6rem" />
+        <Map
+          location={order?.addressLatLng}
+          onChange={(latlng) => {
+            setOrder({ ...order, addressLatLng: latlng });
+          }}
+        />
       </div>
 
       <div className={classes.buttons_container}>
