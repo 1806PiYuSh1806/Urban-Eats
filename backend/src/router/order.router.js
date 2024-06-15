@@ -11,8 +11,8 @@ router.post(
   "/create",
   handler(async (req, res) => {
     const order = req.body;
-    if (order.length <= 0) {
-      res.status(400).send("Cart Is Empty");
+    if (!order.items || order.items.length <= 0) {  // Ensure to check if the order has items
+      return res.status(400).send("Cart Is Empty");
     }
 
     await OrderModel.deleteOne({
@@ -25,5 +25,42 @@ router.post(
     res.send(newOrder);
   })
 );
+
+router.put(
+  "/pay",
+  handler(async (req, res) => {
+    const { paymentId } = req.body;
+    const order = await getNewOrderForCurrentUser(req);
+    if (!order) {
+      res.status(400).send("Order Not Found");
+      return;
+    }
+
+    order.paymentId = paymentId;
+    order.status = OrderStatus.PAID;
+    await order.save();
+
+    res.send(order._id);
+  })
+);
+
+router.get(
+  "/newOrderForCurrentUser",
+  handler(async (req, res) => {
+    const order = await getNewOrderForCurrentUser(req);
+    if (order) {
+      res.send(order);
+    } else {
+      res.status(400).send("No new order found for the current user");
+    }
+  })
+);
+
+const getNewOrderForCurrentUser = async (req) => {
+  return await OrderModel.findOne({
+    user: req.user.id,
+    status: OrderStatus.NEW,
+  });
+};
 
 export default router;
