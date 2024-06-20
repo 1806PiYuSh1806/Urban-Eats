@@ -3,6 +3,7 @@ import handler from "express-async-handler";
 import auth from "../middleware/auth.mid.js";
 import { OrderModel } from "../models/order.model.js";
 import { OrderStatus } from "../constants/orderStatus.js";
+import { UserModel } from "../models/user.model.js";
 
 const router = Router();
 router.use(auth);
@@ -11,7 +12,8 @@ router.post(
   "/create",
   handler(async (req, res) => {
     const order = req.body;
-    if (!order.items || order.items.length <= 0) {  // Ensure to check if the order has items
+    if (!order.items || order.items.length <= 0) {
+      // Ensure to check if the order has items
       return res.status(400).send("Cart Is Empty");
     }
 
@@ -53,6 +55,26 @@ router.get(
     } else {
       res.status(400).send("No new order found for the current user");
     }
+  })
+);
+
+router.get("/allStatus", (req, res) => {
+  const allStatus = Object.values(OrderStatus);
+  res.send(allStatus);
+});
+
+router.get(
+  "/:status?",
+  handler(async (req, res) => {
+    const status = req.params.status;
+    const user = await UserModel.findById(req.user.id);
+    const filter = {};
+
+    if (!user.isAdmin) filter.user = user._id;
+    if (status) filter.status = status;
+
+    const orders = await OrderModel.find(filter).sort("-createdAt");
+    res.send(orders);
   })
 );
 

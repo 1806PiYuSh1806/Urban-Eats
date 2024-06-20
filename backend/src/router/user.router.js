@@ -4,6 +4,7 @@ import handler from "express-async-handler";
 import { UserModel } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 const PASSWORD_HASH_SALT_ROUNDS = 10;
+import auth from "../middleware/auth.mid.js";
 
 const router = Router();
 
@@ -47,6 +48,21 @@ router.post(
 
     const result = await UserModel.create(newUser);
     res.send(generateTokenResponse(result));
+  })
+);
+
+router.put(
+  "/updateProfile",
+  auth,
+  handler(async (req, res) => {
+    const { name, address } = req.body;
+    const user = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      { name, address },
+      { new: true }
+    );
+
+    res.send(generateTokenResponse(user));
   })
 );
 

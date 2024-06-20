@@ -8,6 +8,8 @@ import Register from "./pages/Register/Register";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import CheckoutPage from "./pages/Checkout/CheckoutPage";
 import PaymentPage from "./pages/Payment/PaymentPage";
+import ProfilePage from "./pages/Profile/ProfilePage";
+import OrderPage from "./pages/Orders/OrderPage";
 
 const AppRoutes = () => {
   return (
@@ -32,6 +34,22 @@ const AppRoutes = () => {
         element={
           <AuthRoute>
             <PaymentPage />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <AuthRoute>
+            <ProfilePage />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/orders/:filter?"
+        element={
+          <AuthRoute>
+            <OrderPage />
           </AuthRoute>
         }
       />
