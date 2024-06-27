@@ -33,3 +33,11 @@ To start the project, use the following command:
 
 ```sh
 npm start
+```
+
+## Technologies Used
+
+1. Backend: Node.js
+2. Frontend: React.js
+3. Database: MongoDB
+4. Package Manager: npm
