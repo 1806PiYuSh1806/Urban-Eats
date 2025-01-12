@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000"],
+    origin: ["https://6783ff15986e4094964d903d--tiny-granita-98db4e.netlify.app"],
   })
 );
 
