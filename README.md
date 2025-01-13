@@ -2,6 +2,10 @@
 
 Urban Eats is an online ordering website designed to provide a seamless and efficient way for users to place food orders from various restaurants.
 
+# A sneak peak into what I have made here
+
+The site is deployed at https://6783ff15986e4094964d903d--tiny-granita-98db4e.netlify.app/
+
 ## Table of Contents
 
 - [Installation](#installation)
